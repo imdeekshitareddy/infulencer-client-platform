@@ -9,6 +9,7 @@ const ClientRoute = require('./Routes/ClientRoute');
 const InfluencerRoute = require('./Routes/InfluencerRoute');
 const PromotionRoute = require('./Routes/PromotionsRoute');
 const { notFound, errorHandler } = require('./Middleware/errorMiddleware');
+const AiChatRoute = require("./Routes/AiChatRoute");
 
 dotenv.config();  // Load environment variables
 
@@ -32,6 +33,7 @@ app.use('/message', MessageRoute);
 app.use('/clients', ClientRoute);
 app.use('/influencers', InfluencerRoute);
 app.use('/promotions', PromotionRoute);
+app.use("/ai", AiChatRoute);
 
 // Error handling middleware
 app.use(notFound);
