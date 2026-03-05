@@ -15,6 +15,7 @@ import anish from "../Assets/anish.jpg";
 import rajiv from "../Assets/rajiv.jpg";
 import Header from "../Components/Header";
 import Footer from "../Components/Footer";
+import myphoto from "../Assets/myphoto.png";
 
 const Home = () => {
   const { currentUser } = useContext(UserContext);
@@ -29,7 +30,12 @@ const Home = () => {
   const isInView4 = useInView(ref4, { once: true });
   const [promotions, setPromotions] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [brands, setBrands] = useState(0);
+  const [influencers, setInfluencers] = useState(0);
+  const [reach, setReach] = useState(0);
 
+  const refCounter = useRef(null);
+  const isCounterVisible = useInView(refCounter, { once: true });
   useEffect(() => {
     const getPromotions = async () => {
       try {
@@ -46,6 +52,44 @@ const Home = () => {
     };
     getPromotions();
   }, []);
+  useEffect(() => {
+  if (!isCounterVisible) return;
+
+  let brandTarget = 300;
+  let influencerTarget = 1500;
+  let reachTarget = 10;
+
+  let brandInterval = setInterval(() => {
+    setBrands((prev) => {
+      if (prev >= brandTarget) {
+        clearInterval(brandInterval);
+        return brandTarget;
+      }
+      return prev + 5;
+    });
+  }, 20);
+
+  let influencerInterval = setInterval(() => {
+    setInfluencers((prev) => {
+      if (prev >= influencerTarget) {
+        clearInterval(influencerInterval);
+        return influencerTarget;
+      }
+      return prev + 20;
+    });
+  }, 20);
+
+  let reachInterval = setInterval(() => {
+    setReach((prev) => {
+      if (prev >= reachTarget) {
+        clearInterval(reachInterval);
+        return reachTarget;
+      }
+      return prev + 1;
+    });
+  }, 150);
+
+}, [isCounterVisible]);
 
   const lightColors = [
     "#fcf372",
@@ -193,9 +237,9 @@ const Home = () => {
             />
           </div>
         </div>
-        {/* Morquee component */}
+        Morquee component
         <Morquee />
-        <div className="w-full flex flex-col gap-5 mb-5">
+        {/* <div className="w-full flex flex-col gap-5 mb-5">
           <h2
             className="text-center text-4xl my-3 mt-14"
             style={{
@@ -225,8 +269,50 @@ const Home = () => {
           ) : (
             <p>No results</p>
           )}
+        </div> */}
+        <div ref={refCounter} className="w-full flex flex-col items-center gap-14 my-24">
+
+          <motion.h2
+            initial={{ opacity: 0, y: 40 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="text-center font-semibold"
+            style={{
+              fontSize: "clamp(28px,5vw + 5px , 60px)"
+            }}
+          >
+            Our <span className="coloring">Impact</span> So Far
+          </motion.h2>
+
+          <div className="flex flex-wrap justify-center gap-20 text-center">
+
+            <div className="flex flex-col items-center">
+              <h3 className="text-6xl font-bold text-indigo-600">
+                {brands}+
+              </h3>
+              <p className="text-gray-500 mt-2 text-lg">Brands</p>
+            </div>
+
+            <div className="flex flex-col items-center">
+              <h3 className="text-6xl font-bold text-pink-600">
+                {influencers}+
+              </h3>
+              <p className="text-gray-500 mt-2 text-lg">Influencers</p>
+            </div>
+
+            <div className="flex flex-col items-center">
+              <h3 className="text-6xl font-bold text-green-600">
+                {reach}M+
+              </h3>
+              <p className="text-gray-500 mt-2 text-lg">Audience Reach</p>
+            </div>
+
+          </div>
+
         </div>
       </div>
+      
 
       {/* Technical Support Section */}
       <section className="w-full flex justify-center md:my-[5rem] my-10">
@@ -239,7 +325,7 @@ const Home = () => {
               <div className="grid items-center grid-cols-1 md:grid-cols-2 gap-8">
                 <div>
                   <h2 className="text-3xl font-bold leading-tight text-black sm:text-4xl lg:text-5xl">
-                    Hey 👋 I am Akhilender
+                    Hey 👋 we are CollabSphere
                   </h2>
                   <p className="max-w-lg mt-3 text-xl leading-relaxed text-gray-600 md:mt-8">
                     At CollabSphere, we're here to assist you with any technical questions or issues you may encounter. For support, please reach out to us via email at support@collabsphere.com, and our team will respond promptly to resolve your concerns. We are committed to providing a seamless collaboration experience and ensuring that your workflows remain efficient and uninterrupted.
@@ -253,15 +339,30 @@ const Home = () => {
                       <span className="relative"> Have a question? </span>
                     </span>
                     <br className="block sm:hidden" />
-                    Ask me on <a href="https://x.com/akhil_reddy_t" title=""
+                    Ask me on <a href="https://x.com/deekt" title=""
                       className="transition-all duration-200 text-[#8a00c2] hover:text-[#6b00a3] hover:underline">Twitter</a>
                   </p>
                 </div>
 
-                <div className="relative">
+                {/* <div className="relative">
                   <div className="relative w-full xl:max-w-lg xl:mx-auto">
                     <img className="absolute inset-x-0 bottom-0 -mb-48 -translate-x-1/2 left-1/2" src="https://cdn.rareblocks.xyz/collection/celebration/images/team/1/blob-shape.svg" alt="" />
                     <img className="relative w-full" src={akhilender} alt="Akhilender" />
+                  </div>
+                </div> */}
+                <div className="relative">
+                  <div className="relative w-full xl:max-w-lg xl:mx-auto">
+                    <img 
+                      className="absolute inset-x-0 bottom-0 -mb-48 -translate-x-1/2 left-1/2"
+                      src="https://cdn.rareblocks.xyz/collection/celebration/images/team/1/blob-shape.svg"
+                      alt=""
+                    />
+
+                    <img 
+                      className="relative w-full"
+                      src={myphoto}
+                      alt="profile"
+                    />
                   </div>
                 </div>
               </div>
@@ -270,7 +371,7 @@ const Home = () => {
         </div>
       </section>
 
-      {/* Contributors Section */}
+      {/* Contributors Section
       <section className="py-24">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="mb-12">
@@ -303,7 +404,7 @@ const Home = () => {
             </div>
           </div>
         </div>
-      </section>
+      </section> */}
     </section>
   );
 };
