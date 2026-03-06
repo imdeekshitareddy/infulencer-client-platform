@@ -9,13 +9,12 @@ app.use(
   cors({
     origin: [
       "http://localhost:3000",
-      "https://collab-sphere-rho.vercel.app",
-      "https://collab-sphere-k4pqoujml-ideekshitareddy-4958s-projects.vercel.app"
+      /\.vercel\.app$/
     ],
-    methods: ["GET", "POST", "PUT", "DELETE"],
     credentials: true
   })
-);  
+);
+app.options("*", cors());
   let activeUsers = [];
   
   io.on("connection", (socket) => {
