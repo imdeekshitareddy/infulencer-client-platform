@@ -18,13 +18,19 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-const corsOptions = {
-  origin: ['http://localhost:3000', "https://collab-sphere-rho.vercel.app",
-    "https://collab-sphere-k4pqoujml-ideekshitareddy-4958s-projects.vercel.app"],
-  credentials: true,
-};
-app.use(cors(corsOptions));
-// app.use(cors({ origin: "https://collab-s-ytxg.vercel.app/", credentials: true }));
+// const corsOptions = {
+//   origin: ['http://localhost:3000', 'https://collab-s-ytxg.vercel.app'],
+//   credentials: true,
+// };
+app.use(cors({
+  origin: [
+    "http://localhost:3000",
+    /\.vercel\.app$/
+  ],
+  credentials: true
+}));
+// app.use(cors(corsOptions));
+
 
 
 // Register routes
