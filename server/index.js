@@ -30,7 +30,7 @@ app.use(cors({
   credentials: true
 }));
 // app.use(cors(corsOptions));
-
+app.options("*", cors());
 
 
 // Register routes
