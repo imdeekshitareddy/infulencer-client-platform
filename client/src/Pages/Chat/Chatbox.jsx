@@ -56,7 +56,7 @@ const Chatbox = ({
     };
     if (chat) getMessages();
   }, [chat, authToken]);
-  
+
   // Scroll to bottom when messages change
   useEffect(() => {
     if (scrollRef.current) {
