@@ -124,11 +124,13 @@ const Header = () => {
       <div className="product-heading flex justify-center items-center">
         <Link
           to={"/"}
-          className="coloring flex items-center justify-center pl-3"
+          className="group flex items-center justify-center pl-3 transition-all duration-300"
         >
           <div className="flex items-center gap-2">
             <img src={logo} alt="Logo" className="w-10 h-10" />
-            <span className="text-2xl font-bold text-[#282828]">COLLAB SPHERE</span>
+            <span className="text-2xl font-bold text-purple-600 transition-all duration-300 group-hover:scale-105 group-hover:drop-shadow-[0_0_8px_rgba(168,85,247,0.6)]">
+              COLLAB SPHERE
+            </span>
           </div>
         </Link>
       </div>

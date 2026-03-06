@@ -14,10 +14,10 @@ const Chatbox = ({
   const [userData, setUserData] = useState([]);
   const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState("");
-
+  
   // Reference for scrolling
   const scrollRef = useRef(null);
-
+  
   useEffect(() => {
     if (recieveMessage !== null && recieveMessage.chatId === chat?._id) {
       setMessages((prevMessages) => [...prevMessages, recieveMessage]);
@@ -56,7 +56,7 @@ const Chatbox = ({
     };
     if (chat) getMessages();
   }, [chat, authToken]);
-
+  
   // Scroll to bottom when messages change
   useEffect(() => {
     if (scrollRef.current) {
@@ -68,35 +68,39 @@ const Chatbox = ({
     setNewMessage(newMessage);
   };
 
-  const handleSend = async (e) => {
-    e.preventDefault();
-    const message = {
-      senderId: currentUser,
-      text: newMessage.trim(),
-      chatId: chat._id,
-    };
+  
+  const handleSend = async () => {
 
-    try {
-      const response = await axios.post(
-        `${process.env.REACT_APP_BASE_URL}/message`,
-        message,
-        {
-          withCredentials: true,
-          headers: { Authorization: `Bearer ${authToken}` },
-        }
-      );
-      const data = response?.data;
-      setMessages((prevMessages) => [...prevMessages, data]);
-      setNewMessage("");
-    } catch (error) {
-      console.log(error);
-    }
+  if (!newMessage.trim()) return;
 
-    // send msg to socket server
-    const recieverId = chat?.members.find((id) => id !== currentUser);
-    setSendMessage({ ...message, recieverId });
+  const message = {
+    senderId: currentUser,
+    text: newMessage.trim(),
+    chatId: chat._id,
   };
 
+  try {
+    const response = await axios.post(
+      `${process.env.REACT_APP_BASE_URL}/message`,
+      message,
+      {
+        withCredentials: true,
+        headers: { Authorization: `Bearer ${authToken}` },
+      }
+    );
+
+    const data = response?.data;
+    setMessages((prevMessages) => [...prevMessages, data]);
+    setNewMessage("");
+  } catch (error) {
+    console.log(error);
+  }
+
+  const recieverId = chat?.members.find((id) => id !== currentUser);
+  setSendMessage({ ...message, recieverId });
+
+  
+};
   return (
     <section className="chatbox-section w-full max-w-full h-full p-2 flex flex-col">
       <section
@@ -162,12 +166,20 @@ const Chatbox = ({
         <div ref={scrollRef}></div>
       </div>
       {/* message sender */}
-      <div className="msg-sender flex gap-2 items-center">
-        <div className="flex items-center justify-center rounded-lg bg-slate-300 w-full max-w-10 h-full max-h-10 cursor-pointer">
-          +
-        </div>
-        <EmojiInput value={newMessage} onChange={handleChangeInput} />
-        <div className="send-btn cursor-pointer" onClick={handleSend}>
+      {/* message sender */}
+<div className="msg-sender flex gap-2 items-center">
+
+  <div className="flex items-center justify-center rounded-lg bg-slate-300 w-full max-w-10 h-full max-h-10 cursor-pointer">
+    +
+  </div>
+
+  <EmojiInput
+    value={newMessage}
+    onChange={handleChangeInput}
+    onEnter={handleSend}
+  />
+
+  <div className="send-btn cursor-pointer" onClick={handleSend}>
           <svg
             style={{ transform: "rotate(-45deg)" }}
             xmlns="http://www.w3.org/2000/svg"

@@ -16,7 +16,7 @@ const AIChatbot = () => {
   const [chat, setChat] = useState([]);
   const [typing, setTyping] = useState(false);
   const [showLabel, setShowLabel] = useState(true);
-
+  const [hovered, setHovered] = useState(false);
   const chatEndRef = useRef(null);
 
   // Hide label after scroll
@@ -106,18 +106,23 @@ typeMessage(res.data.reply);
     <>
       {/* Floating button + label */}
       {!open && (
-        <div className="fixed bottom-6 right-6 flex items-center gap-3">
-
-          {showLabel && (
-            <div className="bg-white px-4 py-2 rounded-full shadow text-sm">
-              Chat with us 👋
-            </div>
-          )}
+        <div className="fixed bottom-6 right-6 flex flex-col items-end gap-2 pointer-events-none">
 
           <div
-            onClick={() => setOpen(true)}
-            className="bg-indigo-600 text-white w-14 h-14 flex items-center justify-center rounded-full shadow-xl cursor-pointer hover:bg-indigo-700 transition"
-          >
+  className={`bg-white px-4 py-2 rounded-full shadow-lg text-sm transition-all duration-300 pointer-events-none ${
+    hovered || showLabel
+      ? "opacity-100 translate-y-0"
+      : "opacity-0 translate-y-2"
+  }`}
+>
+  Chat with us 👋
+</div>
+          <div
+  onClick={() => setOpen(true)}
+  onMouseEnter={() => setHovered(true)}
+  onMouseLeave={() => setHovered(false)}
+  className="bg-indigo-600 text-white w-14 h-14 flex items-center justify-center rounded-full shadow-xl cursor-pointer hover:bg-indigo-700 transition pointer-events-auto"
+>
             💬
           </div>
 
@@ -233,7 +238,11 @@ typeMessage(res.data.reply);
               placeholder="Enter your message..."
               className="flex-1 px-2 py-2 outline-none text-sm"
               onKeyDown={(e) => {
-                if (e.key === "Enter") sendMessage();
+                e.stopPropagation();
+                if (e.key === "Enter") {
+                  e.preventDefault();
+                  sendMessage();
+                }
               }}
             />
 
