@@ -3,15 +3,19 @@
 //       origin: ['http://localhost:3000'],
 //     },
 //   });
-const io = require('socket.io')(8800, {
-  cors: {
+const cors = require("cors");
+
+app.use(
+  cors({
     origin: [
       "http://localhost:3000",
-      /\.vercel\.app$/
+      "https://collab-sphere-rho.vercel.app",
+      "https://collab-sphere-k4pqoujml-ideekshitareddy-4958s-projects.vercel.app"
     ],
-    methods: ["GET", "POST"]
-  },
-});  
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    credentials: true
+  })
+);  
   let activeUsers = [];
   
   io.on("connection", (socket) => {
