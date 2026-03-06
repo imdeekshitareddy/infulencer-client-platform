@@ -19,7 +19,8 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 const corsOptions = {
-  origin: ['http://localhost:3000', 'https://collab-s-ytxg.vercel.app'],
+  origin: ['http://localhost:3000', "https://collab-sphere-rho.vercel.app",
+    "https://collab-sphere-k4pqoujml-ideekshitareddy-4958s-projects.vercel.app"],
   credentials: true,
 };
 app.use(cors(corsOptions));
