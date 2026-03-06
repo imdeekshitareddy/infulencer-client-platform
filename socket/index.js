@@ -1,9 +1,17 @@
+// const io = require('socket.io')(8800, {
+//     cors: {
+//       origin: ['http://localhost:3000'],
+//     },
+//   });
 const io = require('socket.io')(8800, {
-    cors: {
-      origin: ['http://localhost:3000'],
-    },
-  });
-  
+  cors: {
+    origin: [
+      "http://localhost:3000",
+      /\.vercel\.app$/
+    ],
+    methods: ["GET", "POST"]
+  },
+});  
   let activeUsers = [];
   
   io.on("connection", (socket) => {
